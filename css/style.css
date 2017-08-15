@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=PT+Sans|PT+Serif|Indie+Flower');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
 
 @media print {
   #info {
@@ -19,123 +19,60 @@ body, html {
   padding: 0;
   border: 0;
   outline: 0;
-  font-size: 110%;
+  font-size: 130%;
   vertical-align: baseline;
   background: transparent;
-  font-family: 'PT Serif', serif;
+  font-family: 'Playfair Display', serif;
   line-height: 160%;
 }
 
 a {
-  color: #31C4F3;
   text-decoration: none;
 }
 
 #wrapper {
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  padding: 0 20px;
-}
-
-#header {
-  padding: 0 20px;
-}
-
-.section p {
-  margin: 0;
-  padding: 0;
-}
-
-h1 a, h2 a, h3 a {
-  color: #000;
-}
-
-.section {
-  width: 400px;
-  height: 200px;
-  min-width: 200px;
-  min-height: 100px;
-  max-height: 800px;
-  position: absolute;
-}
-
-.section:not(.note) .ui-resizable-handle {
-  opacity: 0;
-}
-
-.section:not(.note):hover .ui-resizable-handle {
-  opacity: 1;
-}
-
-.section:not(.note):hover {
-  background-color: rgba(0,0,0,0.05);
-}
-
-.section.note h1,
-.section.note h2,
-.section.note h3,
-.section.note h4,
-.section.note h5,
-.section.note h6 {
-    padding: 0;
-    margin: 0;
-}
-
-.section a.handle {
-    color: #000;
-    padding-right: 6px;
-    font-weight: bold;
-}
-
-#header p a {
-  text-decoration: none;
-  color: #aaa;
-}
-
-#commands {
-  display: block;
-}
-
-.column {
-  float: left;
-}
-
-.column1of1 {
-  display: block;
+  background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 92%, rgba(0,0,0,0.5) 100%); /* FF3.6-15 */
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 92%,rgba(0,0,0,0.5) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 92%,rgba(0,0,0,0.5) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  height: 100vh;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.column1of2 {
-  display: block;
-  width: 50%;
+/* ANIMATIONS */
+
+.fade {
+  margin: 10px 0 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 30em;
+  animation: fadein 4s steps(60, end);
 }
 
-.column1of3 {
-  display: block;
-  width: 33%;
+@keyframes fadein {
+  from { width: 0;
+          opacity: 0;}
+} 
+
+/* SLIDES */
+
+.slide {
+  width: 60%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  text-align: left;
+  float:left;
 }
 
-.column1of4 {
-  display: block;
-  width: 25%;
-}
-
-#commands .handle {
-  cursor: -webkit-grab;
-}
-
-.note ul {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
-    font-family: serif;
-}
-
-.section {
-  padding: 10px 15px;
-  margin: 10px;
-  border-radius: 10px;
+.slide:not(.current) {
+  width: 0px;
+  height: 0px;
+  opacity: 0;
 }
 
 .section em {
@@ -144,61 +81,8 @@ h1 a, h2 a, h3 a {
   border-radius: 3px;
 }
 
-.section.note p:first-child {
-  font-family: serif;
-}
-
-.section.note {
-  font-family: "Indie Flower", serif;
-}
-
-.n-1 {
-  background-color: #f4e3d7;
-}
-
-.note-1 {
-  color: #784421;
-  background-color: #f4e3d7;
-}
-
-.n-2 {
-  background-color: #d5e5ff;
-}
-
-.note-2 {
-  color: #003380;
-  background-color: #d5e5ff;
-}
-
-.n-3 {
-  background-color: #e3f4d7;
-}
-
-.note-3 {
-  color: #225500;
-  background-color: #e3f4d7;
-}
-
-/* Connections */
-
-connection {
-   border: 7px solid #ccc;
-   opacity: 0.5;
-   z-index: -1;
-   border-radius:100%;
-   pointer-events:none;
-}
-
-.c-1 {
-  border-color: #f4e3d7;
-}
-
-.c-2 {
-  border-color: #d5e5ff;
-}
-
-.c-3 {
-  border-color: #e3f4d7;
+#commands {
+  display: block;
 }
 
 /* ------------------------------------------------------------------------ */
@@ -214,8 +98,12 @@ connection {
   box-shadow: -2px 2px 8px rgba(0,0,0,0.45);
   border-radius: 0px 0px 0px 10px;
   padding: 10px;
-  font-size: 0.85em;
+  font-size: 1em;
   color: #fff;
+}
+
+#info a {
+  color: #31C4F3;
 }
 
 #info h1, #info h1 a, #info h2, #info h3 {
