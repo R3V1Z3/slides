@@ -111,9 +111,6 @@ jQuery(document).ready(function() {
         // remove any empty p elements
         $( 'p:empty' ).remove();
         
-        // remove br tags
-        //$('br').remove();
-        
         var counter = 0;
         $('#wrapper').children().each(function() {
             if ( $(this).is('p') ) {
@@ -121,14 +118,19 @@ jQuery(document).ready(function() {
                     // split at br tags and wrap content with slide divs
                      var txt = html.split('<br>');
                      for( var x = 0; x < txt.length; x++ ) {
-                         $('#wrapper').append( '<div id="slide-' + counter + '" class="slide"><p>' + txt[x] + "</p></div>" );
-                         counter++;
+                        var content = '<div id="slide-' + counter + '" class="slide">';
+                        content += '<div class="content">';
+                        content += '<p>' + txt[x] + "</p></div></div>";
+                        $('#wrapper').append( content );
+                        counter++;
                      }
                 });
                 // p tag contents moved to wrapper so remove original now
                 $(this).remove();
             } else {
-                $(this).wrap( '<div id="slide-' + counter + '" class="slide" />' );
+                var content_div = '<div class="content"/>';
+                var slide_div = '<div id="slide-' + counter + '" class="slide"/>';
+                $(this).wrap( slide_div ).wrap( content_div );
                 counter++;
             }
         });
@@ -169,7 +171,8 @@ jQuery(document).ready(function() {
     }
     
     function change_slide() {
-        $('#slide-' + current_slide).addClass('current fade');
+        $('#slide-' + current_slide).addClass('current').fadeIn();
+        $('#slide-' + current_slide + ' .content').children().addClass('fade');
     }
     
     function register_keys() {
@@ -188,7 +191,8 @@ jQuery(document).ready(function() {
                 case 100:
                 case 37:
                     // LEFT
-                    $('#slide-' + current_slide).removeClass('current fade');
+                    $('#slide-' + current_slide).removeClass('current').fadeOut();
+                    $('#slide-' + current_slide + ' .content').children().removeClass('fade');
                     current_slide--;
                     if ( current_slide < 0 ) current_slide = total_slides;
                     change_slide();
@@ -198,7 +202,8 @@ jQuery(document).ready(function() {
                 case 102:
                 case 39:
                     // RIGHT
-                    $('#slide-' + current_slide).removeClass('current fade');
+                    $('#slide-' + current_slide).removeClass('current').fadeOut();
+                    $('#slide-' + current_slide + ' .content').children().removeClass('fade');
                     current_slide++;
                     if ( current_slide > total_slides ) current_slide = 0;
                     change_slide();

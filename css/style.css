@@ -19,7 +19,7 @@ body, html {
   padding: 0;
   border: 0;
   outline: 0;
-  font-size: 130%;
+  font-size: 170%;
   vertical-align: baseline;
   background: transparent;
   font-family: 'Playfair Display', serif;
@@ -36,53 +36,79 @@ a {
   background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%,rgba(0,0,0,0.4) 92%,rgba(0,0,0,0.5) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   height: 100vh;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  margin: auto;
+}
+
+/* SLIDES */
+
+.slide {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.slide .content {
+  display: block;
+  width: 50%;
+  height: 50%;
+  top: 20%;
+  left: 25%;
+  position: relative;
+  transform: scale(1);
+  text-shadow: 0px 0px 20px white;
+  padding: 10px;
+}
+
+.slide .content p,
+.slide .content h1 {
+  position: relative;
+  top: 40%;
+}
+
+.slide:not(.current) .content {
+  animation: oldfade 4s linear;
+}
+
+.content strong {
+  color: rgba(0,0,0,0.25);
 }
 
 /* ANIMATIONS */
 
 .fade {
-  margin: 10px 0 0 10px;
+  /* margin: 10px 0 0 10px; */
   white-space: nowrap;
   overflow: hidden;
-  width: 30em;
-  animation: fadein 4s steps(60, end);
+  width: 40em;
+  animation: fadein 3s steps(60, end);
 }
 
 @keyframes fadein {
-  from { width: 0;
-          opacity: 0;}
-} 
-
-/* SLIDES */
-
-.slide {
-  width: 60%;
-  height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 1;
-  text-align: left;
-  float:left;
+  from {  width: 0;
+          opacity: 0.2;
+          transform: scale(2);
+  }
 }
 
-.slide:not(.current) {
-  width: 0px;
-  height: 0px;
-  opacity: 0;
-}
-
-.section em {
-  color: black;
-  padding: 3px 6px;
-  border-radius: 3px;
-}
-
-#commands {
-  display: block;
+@keyframes oldfade {
+    0% {
+        transform: scale(1);
+        width: 100%;
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        width: 0px;
+        opacity: 0;
+    }
 }
 
 /* ------------------------------------------------------------------------ */
