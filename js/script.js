@@ -104,6 +104,9 @@ jQuery(document).ready(function() {
         });
         content = content.replace(/[:;]/g, ':<br />');
         $('#wrapper').html( md.render( content ) );
+        // render entire text for background image
+        $('body').append('<div id="bg"></div>');
+        $('#bg').html( md.render( content ) );
     }
     
     function render_sections() {
