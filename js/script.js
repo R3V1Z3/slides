@@ -135,9 +135,10 @@ jQuery(document).ready(function() {
             }
         });
         
+        // fade all slides to start with
+        $('.slide').fadeOut();
         total_slides = counter - 1;
-        $('#slide-' + current_slide).addClass('current');
-        
+        $('#slide-' + current_slide).addClass('current').fadeIn();
     }
     
     function toc_html() {
@@ -165,14 +166,28 @@ jQuery(document).ready(function() {
         $('#hide').click(function() {
             $('#info').toggle();
         });
+        $('#info').toggle();
         
         var url = 'https://gist.github.com/' + gist;
         $('#gist-url').html('<a href="' + url + '">' + gist + '</a>');
     }
     
-    function change_slide() {
-        $('#slide-' + current_slide).addClass('current').fadeIn();
-        $('#slide-' + current_slide + ' .content').children().addClass('fade');
+    function remove_old(slide) {
+            $('#slide-' + slide).removeClass('current').fadeOut();
+            $('#slide-' + slide + ' .content').children().removeClass('fade');
+    }
+    
+    function change_slide(slide) {
+        var $current = $('#slide-' + slide).addClass('current').fadeIn();
+        $current.find('.content').children().addClass('fade');
+        var $clone = $current.clone().appendTo('#wrapper');
+        $clone.attr('id', 'clone');
+        $clone.css({
+            'opacity': 0.15,
+            'transform': 'scale(3)',
+            'left': '200px'
+        });
+        $clone.fadeOut( 4000, function() { $(this).remove(); });
     }
     
     function register_keys() {
@@ -191,22 +206,20 @@ jQuery(document).ready(function() {
                 case 100:
                 case 37:
                     // LEFT
-                    $('#slide-' + current_slide).removeClass('current').fadeOut();
-                    $('#slide-' + current_slide + ' .content').children().removeClass('fade');
+                    remove_old(current_slide);
                     current_slide--;
                     if ( current_slide < 0 ) current_slide = total_slides;
-                    change_slide();
+                    change_slide(current_slide);
                     break;
                 case 107:
                 case 187:
                 case 102:
                 case 39:
                     // RIGHT
-                    $('#slide-' + current_slide).removeClass('current').fadeOut();
-                    $('#slide-' + current_slide + ' .content').children().removeClass('fade');
+                    remove_old(current_slide);
                     current_slide++;
                     if ( current_slide > total_slides ) current_slide = 0;
-                    change_slide();
+                    change_slide(current_slide);
                     break;
                 default: 
                     console.log("Default response for switch statement.");
