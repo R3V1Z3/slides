@@ -183,6 +183,7 @@ jQuery(document).ready(function() {
     function change_slide(slide) {
         var $current = $('#slide-' + slide).addClass('current').fadeIn();
         $current.find('.content').children().addClass('fade');
+        
         var $clone = $current.clone().appendTo('#wrapper');
         $clone.attr('id', 'clone');
         $clone.css({
