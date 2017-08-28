@@ -1,31 +1,31 @@
-/* global $, jQuery, dragula, location, HtmlWhitelistedSanitizer */
+/* global $, jQuery, URL, location, path, HtmlWhitelistedSanitizer */
 var TOC = [];
-var gist;
-var document_content;
 var current_slide = 0;
 var total_slides = 0;
+
+let params = (new URL(location)).searchParams;
+//var path = window.location.pathname.split('index.html')[0];
+
+//var preprocess = params.has('preprocess');
+//var postprocess = params.has('postprocess');
+
+// let user select section heading and header tags
+var header = params.get('header');
+if (!header) header = 'h1';
+var heading = params.get('heading');
+if (!heading) heading = 'h2';
+
+// allow user to override fontsize
+var fontsize = params.get('fontsize');
+if (fontsize) {
+    $('#wrapper').css('font-size', fontsize + '%');
+}
+
+var gist = params.get('gist');
+var filename = params.get('filename');
+
 jQuery(document).ready(function() {
-    
-    // get url parameters
-    // from http://stackoverflow.com/questions/11582512/how-to-get-url-parameters-with-javascript/11582513#11582513
-    function getURLParameter(name) {
-        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
-    }
-    
-    var fontsize = getURLParameter('fontsize');
-    if (!fontsize) fontsize = 110;
-    $('body').css('font-size', fontsize + '%');
-    
-    var showonly = getURLParameter('showonly');
-    if (!showonly) showonly = '';
-    
-    var header = getURLParameter('header');
-    if (!header) header = 'h1';
-    var heading = getURLParameter('heading');
-    if (!heading) heading = 'h2';
-    
-    var gist = getURLParameter('gist');
-    var filename = getURLParameter('filename');
+
     if (!gist) gist = '4cef45f3d84ef7de915e526ef0e64cca';
     $.ajax({
         url: 'https://api.github.com/gists/' + gist,
@@ -45,19 +45,23 @@ jQuery(document).ready(function() {
         } else {
             objects.push(gistdata.data.files[filename].content);
         }
-        render( objects[0] );
-        render_sections();
-        check_css();
-        render_info();
-        register_keys();
+        su_render( objects[0] );
     }).error(function(e) {
         console.log('Error on ajax return.');
     });
     
+    function su_render( data ) {
+        render( data );
+        render_sections();
+        check_css();
+        render_info();
+        register_keys();
+    }
+    
     function check_css() {
         // allow for custom CSS via Gist
-        var css = getURLParameter('css');
-        var cssfilename = getURLParameter('cssfilename');
+        var css = params.get('css');
+        var cssfilename = params.get('cssfilename');
         if (css) {
             $.ajax({
                 url: 'https://api.github.com/gists/' + css,
@@ -94,15 +98,14 @@ jQuery(document).ready(function() {
 
     function render(content) {
         var md = window.markdownit({
-            html: true, // Enable HTML tags in source
+            html: false, // Enable HTML tags in source
             xhtmlOut: true, // Use '/' to close single tags (<br />).
-            breaks: false, // Convert '\n' in paragraphs into <br>
+            breaks: true, // Convert '\n' in paragraphs into <br>
             langPrefix: 'language-', // CSS language prefix for fenced blocks.
             linkify: true,
             typographer: true,
             quotes: '“”‘’'
         });
-        content = content.replace(/[:;]/g, ':<br />');
         $('#wrapper').html( md.render( content ) );
         // render entire text for background image
         $('body').append('<div id="bg"></div>');
@@ -169,7 +172,6 @@ jQuery(document).ready(function() {
         $('#hide').click(function() {
             $('#info').toggle();
         });
-        $('#info').toggle();
         
         var url = 'https://gist.github.com/' + gist;
         $('#gist-url').html('<a href="' + url + '">' + gist + '</a>');
@@ -199,7 +201,7 @@ jQuery(document).ready(function() {
         $(document).keydown(function(e) {
             
             switch ( e.which ) {
-                case 104:
+                case 191:
                 case 63:
                 case 72:
                 case 47:
